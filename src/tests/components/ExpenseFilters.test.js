@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import moment from 'moment';
 import { ExpensesFilter } from '../../components/ExpensesFilter';
 import { filters, altFilters } from '../fixtures/filters';
 
@@ -42,24 +43,24 @@ test('should handle text change', () => {
   expect(setTextFilter).toHaveBeenLastCalledWith(value);
 });
 
-// test('should sort by date', () => {
-//   const value = 'date';
-//   wrapper.setProps({
-//     filters: altFilters
-//   });
-//   wrapper.find('select').simulate('change', {
-//     target: { value }
-//   });
-//   expect(sortByDate).toHaveBeenCalled();
-// });
+test('should sort by date', () => {
+  const value = 'date';
+  wrapper.setProps({
+    filters: altFilters
+  });
+  wrapper.find('select').simulate('change', {
+    target: { value }
+  });
+  expect(sortByDate).toHaveBeenCalled();
+});
 
-// test('should sort by amount', () => {
-//   const value = 'amount';
-//   wrapper.find('select').simulate('change', {
-//     target: { value }
-//   });
-//   expect(sortByAmount).toHaveBeenCalled();
-// });
+test('should sort by amount', () => {
+  const value = 'amount';
+  wrapper.find('select').simulate('change', {
+    target: { value }
+  });
+  expect(sortByAmount).toHaveBeenCalled();
+});
 
 // test('should handle date changes', () => {
 //   const startDate = moment(0).add(4, 'years');
