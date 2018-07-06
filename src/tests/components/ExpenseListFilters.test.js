@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import moment from 'moment';
-import { ExpensesFilter } from '../../components/ExpensesFilter';
+import { ExpenseListFilters } from '../../components/ExpenseListFilters';
 import { filters, altFilters } from '../fixtures/filters';
 
 let setTextFilter, sortByDate, sortByAmount, setStartDate, setEndDate, wrapper;
@@ -13,7 +13,7 @@ beforeEach(() => {
   setStartDate = jest.fn();
   setEndDate = jest.fn();
   wrapper = shallow(
-    <ExpensesFilter
+    <ExpenseListFilters
       filters={filters}
       setTextFilter={setTextFilter}
       sortByDate={sortByDate}
@@ -24,11 +24,11 @@ beforeEach(() => {
   );
 });
 
-test('should render ExpensesFilter correctly', () => {
+test('should render ExpenseListFilters correctly', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('should render ExpensesFilter with alt data correctly', () => {
+test('should render ExpenseListFilters with alt data correctly', () => {
   wrapper.setProps({
     filters: altFilters
   });
@@ -62,16 +62,16 @@ test('should sort by amount', () => {
   expect(sortByAmount).toHaveBeenCalled();
 });
 
-// test('should handle date changes', () => {
-//   const startDate = moment(0).add(4, 'years');
-//   const endDate = moment(0).add(8, 'years');
-//   wrapper.find('DateRangePicker').prop('onDatesChange')({ startDate, endDate });
-//   expect(setStartDate).toHaveBeenLastCalledWith(startDate);
-//   expect(setEndDate).toHaveBeenLastCalledWith(endDate);
-// });
+test('should handle date changes', () => {
+  const startDate = moment(0).add(4, 'years');
+  const endDate = moment(0).add(8, 'years');
+  wrapper.find('DateRangePicker').prop('onDatesChange')({ startDate, endDate });
+  expect(setStartDate).toHaveBeenLastCalledWith(startDate);
+  expect(setEndDate).toHaveBeenLastCalledWith(endDate);
+});
 
-// test('hould handle date focus changes', () => {
-//   const calendarFocused = 'endDate';
-//   wrapper.find('DateRangePicker').prop('onFocusChange')(calendarFocused);
-//   expect(wrapper.state('calendarFocused')).toBe(calendarFocused);
-// });
+test('hould handle date focus changes', () => {
+  const calendarFocused = 'endDate';
+  wrapper.find('DateRangePicker').prop('onFocusChange')(calendarFocused);
+  expect(wrapper.state('calendarFocused')).toBe(calendarFocused);
+});

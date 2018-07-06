@@ -1,87 +1,76 @@
 import expensesReducer from '../../reducers/expenses';
 import expenses from '../fixtures/expenses';
 
-test('set default state', () => {
+test('should set default state', () => {
   const state = expensesReducer(undefined, { type: '@@INIT' });
+  expect(state).toEqual([]);
+});
 
-  expect(state).toEqual([])
-})
-
-test('remove expense by id', () => {
+test('should remove expense by id', () => {
   const action = {
     type: 'REMOVE_EXPENSE',
-    id: expenses[2].id
-  }
+    id: expenses[1].id
+  };
   const state = expensesReducer(expenses, action);
+  expect(state).toEqual([expenses[0], expenses[2]]);
+});
 
-  expect(state).toEqual([expenses[0], expenses[1]])
-})
-
-test('not remove expense if id not found', () => {
+test('should not remove expenses if id not found', () => {
   const action = {
     type: 'REMOVE_EXPENSE',
     id: '-1'
-  }
+  };
   const state = expensesReducer(expenses, action);
+  expect(state).toEqual(expenses);
+});
 
-  expect(state).toEqual([expenses[0], expenses[1], expenses[2]])
-})
-
-test('add expense', () => {
+test('should add an expense', () => {
   const expense = {
-    id: '4',
-    description: 'Gum',
+    id: '109',
+    description: 'Laptop',
     note: '',
-    amount: 195,
-    createdAt: 0
-  }
-
+    createdAt: 20000,
+    amount: 29500
+  };
   const action = {
     type: 'ADD_EXPENSE',
     expense
-  }
-
+  };
   const state = expensesReducer(expenses, action);
+  expect(state).toEqual([...expenses, expense]);
+});
 
-  expect(state).toEqual([...expenses, action.expense])
-})
-
-test('edit expense', () => {
-  const updates = {
-    id: '4',
-    description: 'Link',
-    note: '',
-    amount: 195,
-    createdAt: 0
-  }
-
+test('should edit an expense', () => {
+  const amount = 122000;
   const action = {
     type: 'EDIT_EXPENSE',
-    id: '3',
-    updates
-  }
-
+    id: expenses[1].id,
+    updates: {
+      amount
+    }
+  };
   const state = expensesReducer(expenses, action);
+  expect(state[1].amount).toBe(amount);
+});
 
-  expect(state).toEqual([expenses[0], expenses[1], action.updates])
-})
-
-test('not edit expense if id not found', () => {
-  const updates = {
-    id: '3',
-    description: 'Link',
-    note: '',
-    amount: 195,
-    createdAt: 0
-  }
-
+test('should not edit an expense if id not found', () => {
+  const amount = 122000;
   const action = {
     type: 'EDIT_EXPENSE',
-    id: '4',
-    updates
-  }
-
+    id: '-1',
+    updates: {
+      amount
+    }
+  };
   const state = expensesReducer(expenses, action);
+  expect(state).toEqual(expenses);
+});
 
-  expect(state).toEqual(expenses)
-})
+test('should set expenses', () => {
+  const action = {
+    type: 'SET_EXPENSES',
+    expenses: [expenses[1]]
+  };
+  const state = expensesReducer(expenses, action);
+  expect(state).toEqual([expenses[1]]);
+});

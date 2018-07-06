@@ -1,57 +1,49 @@
 import moment from 'moment';
-import { setStartDate, setEndDate, sortByDate, sortByAmount, setTextFilter } from '../../actions/filters';
+import {
+  setStartDate,
+  setEndDate,
+  setTextFilter,
+  sortByAmount,
+  sortByDate
+} from '../../actions/filters';
 
-test('ection start date object', () => {
-  const action = setStartDate(moment(0))
-
+test('should generate set start date action object', () => {
+  const action = setStartDate(moment(0));
   expect(action).toEqual({
     type: 'SET_START_DATE',
     startDate: moment(0)
-  })
-})
+  });
+});
 
-test('ection end date object', () => {
-  const action = setEndDate(moment(0))
-
+test('should generate set end date aciton object', () => {
+  const action = setEndDate(moment(0));
   expect(action).toEqual({
     type: 'SET_END_DATE',
     endDate: moment(0)
-  })
-})
+  });
+});
 
-test('ection sort text object', () => {
-
-  const text = 'Anton';
-
-  const action = setTextFilter(text)
-
+test('should generate set text filter object with text value', () => {
+  const text = 'Something in';
+  const action = setTextFilter(text);
   expect(action).toEqual({
     type: 'SET_TEXT_FILTER',
-    text: 'Anton'
-  })
-})
+    text
+  });
+});
 
-test('ection sort text object', () => {
-  const action = setTextFilter()
-
+test('should generate set text filter object with default', () => {
+  const action = setTextFilter();
   expect(action).toEqual({
     type: 'SET_TEXT_FILTER',
     text: ''
-  })
-})
+  });
+});
 
-test('ection sort by date object', () => {
-  const action = sortByDate()
+test('should generate action object for sort by date', () => {
+  expect(sortByDate()).toEqual({ type: 'SORT_BY_DATE' });
+});
 
-  expect(action).toEqual({
-    type: 'SORT_BY_DATE'
-  })
-})
-
-test('ection sort by amount object', () => {
-  const action = sortByAmount()
-
-  expect(action).toEqual({
-    type: 'SORT_BY_AMOUNT'
-  })
-})
+test('should generate action object for sort by amount', () => {
+  expect(sortByAmount()).toEqual({ type: 'SORT_BY_AMOUNT' });
+});

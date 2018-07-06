@@ -1,75 +1,59 @@
-import filtersReducer from '../../reducers/filters';
 import moment from 'moment';
+import filtersReducer from '../../reducers/filters';
 
-test('default filter value', () => {
-  const state = filtersReducer(undefined, { type: '@@INIT' })
-
+test('should setup default filter values', () => {
+  const state = filtersReducer(undefined, { type: '@@INIT' });
   expect(state).toEqual({
     text: '',
     sortBy: 'date',
     startDate: moment().startOf('month'),
     endDate: moment().endOf('month')
-  })
-})
+  });
+});
 
-test('sort to amount', () => {
-  const state = filtersReducer(undefined, { type: 'SORT_BY_AMOUNT' })
+test('should set sortBy to amount', () => {
+  const state = filtersReducer(undefined, { type: 'SORT_BY_AMOUNT' });
+  expect(state.sortBy).toBe('amount');
+});
 
-  expect(state.sortBy).toEqual('amount')
-})
-
-test('sort to date', () => {
+test('should set sortBy to date', () => {
   const currentState = {
     text: '',
-    sortBy: 'amount',
     startDate: undefined,
-    endDate: undefined
-  }
+    endDate: undefined,
+    sortBy: 'amount'
+  };
+  const action = { type: 'SORT_BY_DATE' };
+  const state = filtersReducer(currentState, action);
+  expect(state.sortBy).toBe('date');
+});
 
-  const action = { type: 'SORT_BY_DATE' }
-  const state = filtersReducer(currentState, action)
+test('should set text filter', () => {
+  const text = 'This is my filter';
+  const action = {
+    type: 'SET_TEXT_FILTER',
+    text
+  };
+  const state = filtersReducer(undefined, action);
+  expect(state.text).toBe(text);
+});
 
-  expect(state.sortBy).toEqual('date')
-})
+test('should set startDate filter', () => {
+  const startDate = moment();
+  const action = {
+    type: 'SET_START_DATE',
+    startDate
+  };
+  const state = filtersReducer(undefined, action);
+  expect(state.startDate).toEqual(startDate);
+});
 
-test('sort by text filter', () => {
-  const currentState = {
-    text: '',
-    sortBy: 'date',
-    startDate: undefined,
-    endDate: undefined
-  }
-
-  const action = { type: 'SET_TEXT_FILTER', text: 'mo' }
-  const state = filtersReducer(currentState, action)
-
-  expect(state.text).toEqual('mo')
-})
-
-test('start data filter', () => {
-  const currentState = {
-    text: '',
-    sortBy: 'date',
-    startDate: undefined,
-    endDate: undefined
-  }
-
-  const action = { type: 'SET_START_DATE', startDate: moment(3) }
-  const state = filtersReducer(currentState, action)
-
-  expect(state.startDate).toEqual(moment(3))
-})
-
-test('end data filter', () => {
-  const currentState = {
-    text: '',
-    sortBy: 'date',
-    startDate: undefined,
-    endDate: undefined
-  }
-
-  const action = { type: 'SET_END_DATE', endDate: moment(3) }
-  const state = filtersReducer(currentState, action)
-
-  expect(state.endDate).toEqual(moment(3))
-})
+test('should set endDate filter', () => {
+  const endDate = moment();
+  const action = {
+    type: 'SET_END_DATE',
+    endDate
+  };
+  const state = filtersReducer(undefined, action);
+  expect(state.endDate).toEqual(endDate);
+});
